@@ -52,13 +52,16 @@ def main():
     task_input = st.sidebar.text_input("Add Task:")
     if st.sidebar.button("Add"):
         if task_input:
-            tasks_list.add_task(task_input)
+            tasks_list.append(task_input)
+            st.sidebar.success("task added successfully")
+        else:
+            st.sidebar.warning("please enter the task")
 
     # Sidebar for removing tasks
     task_to_remove = st.sidebar.text_input("Remove Task:")
     if st.sidebar.button("Remove"):
-        if task_to_remove:
-            tasks_list.remove_task(task_to_remove)
+            tasks_list.remove(task_to_remove)
+            st.sidebar.success("task remove successfully")
 
     # Main content to display tasks
     st.write("## Your To-Do List:")
