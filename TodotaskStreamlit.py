@@ -1,3 +1,5 @@
+###########  todotaskapp   #########
+
 # Import necessary libraries
 import streamlit as st
 
@@ -14,8 +16,14 @@ class LinkedList:
 
     def add_task(self, task):
         new_node = Node(task)
-        new_node.next = self.head
-        self.head = new_node
+        if(self.head == None):
+            self.head = new_node
+            return
+        else:
+            temp = self.head
+            while (temp.next != None):
+                temp = temp.next
+            temp.next = new_node
 
     def remove_task(self, task):
         current = self.head
@@ -47,18 +55,23 @@ def main():
 
     # Initialize a linked list
     tasks_list = LinkedList()
+    if 'tasks_list' not in st.session_state:
+        st.session_state.tasks_list = LinkedList()
 
     # Sidebar for adding tasks
     task_input = st.sidebar.text_input("Add Task:")
     if st.sidebar.button("Add"):
         if task_input:
-            tasks_list.add_task(task_input)
+            tasks_list.append(task_input)
+            st.sidebar.success("task added successfully")
+        else:
+            st.sidebar.warning("please enter the task")
 
     # Sidebar for removing tasks
-    task_to_remove = st.sidebar.text_input("Remove Task:")
+    task_to_remove = st.sidebar.text_input("Remove Task: ")
     if st.sidebar.button("Remove"):
-        if task_to_remove:
-            tasks_list.remove_task(task_to_remove)
+        tasks_list.remove(task_to_remove)
+        st.sidebar.success("task remove successfully")
 
     # Main content to display tasks
     st.write("## Your To-Do List:")
@@ -72,3 +85,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+ 
+
